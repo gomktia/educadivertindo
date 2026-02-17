@@ -10,7 +10,7 @@
   !function (f, b, e, v, n, t, s) {
     if (f.fbq) return; n = f.fbq = function () {
       n.callMethod ?
-        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
     };
     if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
     n.queue = []; t = b.createElement(e); t.async = !0;
@@ -7655,35 +7655,40 @@
       if (e.target === this) {
         closeUpsellPopup();
       }
-    });
-  </script>
+    })  </script>
 
   <!-- FAQ Accordion Toggle -->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('.a-ac-t').forEach(function (title) {
-        title.addEventListener('click', function () {
-          var parent = this.closest('.a-ac-i');
-          if (!parent) return;
+    document.addEventListener('DOMContentLoaded', fu nctio      () {
+      document.querySelectorAll('.a-ac-t').forEa ch(functio        itle) {
+        title.addEventListener(' click          ction () {
+          var parent = this          st('.a-ac-i');
+                 (!parent) return;
 
-          // Find all potential content containers - typically .a-ac-ct and .a-cont
-          var contents = parent.querySelectorAll('.a-ac-ct, .a-cont');
-          var isOpening = false;
+          var contents = parent.querySelectorAll('.a-ac          a-cont');
+          var isAlreadyOpen = false;
+
+          //           if any content is alread          ble
+          contents.fo rEach(functi            
+            if (!c.classList.contains('a-c-inactive') &            .getComputedStyle(c).display !== 'none') {
+              isAlre=                       }
+          });
+
+          var shouldOpen = !isAlreadyOpen;
 
           contents.forEach(function (content) {
-            // Use computed style to check if it's currently hidden
-            var currentDisplay = window.getComputedStyle(content).display;
-
-            if (content.classList.contains('a-c-inactive') || currentDisplay === 'none' || content.classList.contains('sf-hidden')) {
-              isOpening = true;
-              content.classList.remove('a-c-inactive', 'sf-hidden', 'atomicat-hidden');
-              content.style.display = 'block';
-              content.style.maxHeight = 'none';
-              content.style.padding = '15px 20px';
-              content.style.overflow = 'visible';
-              content.style.opacity = '1';
-            } else {
-              content.classList.add('a-c-inactive');
+                if (shouldOpen) {
+                  content.classList.remove('a-c-inactive', 'sf-hidden', 'atomicat-hidden                      content.style.display = '                          content.style.maxHeigh              ;
+              content.style.padding              0px';
+              content.style.ov              visible';
+              conte            .opacity                           // Also handle children tha               hidden by Atomicat classes
+                  content.querySelectorAll('.sf-h              omicat-hidden').forEach(function (                             child.classList.remo              den', 'atomicat-hidden');
+                           Ensur           don't have display: none from other s           if possible
+                if (windo          omputedStyle            display === 'none') {
+                  child.s            play = 'block';
+                }
+              });
+            } else                              onte    nt.cadd('a-c-inactive');
               content.style.display = 'none';
               content.style.maxHeight = '0';
               content.style.padding = '0 20px';
@@ -7692,11 +7697,33 @@
             }
           });
 
-          // Rotate the icon (SVG) if it exists
-          var icon = this.querySelector('svg');
-          if (icon) {
-            icon.style.transition = 'transform 0.3s ease';
-            icon.style.transform = isOpening ? 'rotate(180deg)' : 'rotate(0deg)';
+          // Handle SVG icons (Toggle visibility of angle-up / angle-down)
+          var upIcon = this.querySelector('[data-icon="angle-up"]');
+          var downIcon = this.querySelector('[data-icon="angle-down"]');
+
+          if (upIcon && downIcon) {
+            var upCont = upIcon.closest('.atomicat-svg-container');
+            var downCont = downIcon.closest('.atomicat-svg-container');
+
+            if (shouldOpen) {
+              if (upCont) {
+                upCont.classList.remove('atomicat-hidden', 'sf-hidden');
+                upCont.style.display = 'block';
+              }
+              if (downCont) {
+                downCont.classList.add('atomicat-hidden', 'sf-hidden');
+                downCont.style.display = 'none';
+              }
+            } else {
+              if (upCont) {
+                upCont.classList.add('atomicat-hidden', 'sf-hidden');
+                upCont.style.display = 'none';
+              }
+              if (downCont) {
+                downCont.classList.remove('atomicat-hidden', 'sf-hidden');
+                downCont.style.display = 'block';
+              }
+            }
           }
         });
       });
