@@ -7657,75 +7657,65 @@
       }
     })  </script>
 
-  <!-- FAQ Accordion Toggle -->
-  <script>
-    document.addEventListener('DOMContentLoaded', fu nctio      () {
-      document.querySelectorAll('.a-ac-t').forEa ch(functio        itle) {
-        title.addEventListener(' click          ction () {
-          var parent = this          st('.a-ac-i');
-                 (!parent) return;
+<!-- FAQ Accordion - Conteúdo + Toggle -->
+<script>
+(function() {
+  var faqAnswers = [
+    "A apostila é 100% digital. Após a confirmação do pagamento, você receberá os dados de acesso (login e senha) no seu e-mail. Basta acessar o link e baixar todo o conteúdo em poucos minutos.",
+    "Sim! Você pode parcelar em até 12x no cartão de crédito. Também aceitamos PIX com aprovação instantânea.",
+    "A apostila foi desenvolvida para crianças de 4 a 10 anos, abrangendo desde a educação infantil até os primeiros anos do ensino fundamental. O material se adapta ao ritmo de aprendizado de cada criança.",
+    "É muito simples! Clique no botão de compra, escolha a forma de pagamento (PIX, cartão de crédito ou boleto) e finalize seu pedido. O acesso é enviado automaticamente para o seu e-mail.",
+    "Sim! Todo o conteúdo foi elaborado seguindo as diretrizes da Base Nacional Comum Curricular (BNCC), garantindo um aprendizado alinhado com o que é exigido nas escolas.",
+    "Sim! O material foi pensado para auxiliar todas as crianças, incluindo aquelas com dificuldades de aprendizagem. As atividades são lúdicas e progressivas, respeitando o ritmo individual de cada criança."
+  ];
 
-          var contents = parent.querySelectorAll('.a-ac          a-cont');
-          var isAlreadyOpen = false;
+  var items = document.querySelectorAll('.a-ac-i');
 
-          //           if any content is alread          ble
-          contents.fo rEach(functi            
-            if (!c.classList.contains('a-c-inactive') &            .getComputedStyle(c).display !== 'none') {
-              isAlre=                       }
-          });
+  items.forEach(function(item, index) {
+    var contentDiv = item.querySelector('.a-ac-ct');
+    if (contentDiv && faqAnswers[index]) {
+      contentDiv.textContent = faqAnswers[index];
+    }
 
-          var shouldOpen = !isAlreadyOpen;
+    var title = item.querySelector('.a-ac-t');
+    if (!title) return;
 
-          contents.forEach(function (content) {
-                if (shouldOpen) {
-                  content.classList.remove('a-c-inactive', 'sf-hidden', 'atomicat-hidden                      content.style.display = '                          content.style.maxHeigh              ;
-              content.style.padding              0px';
-              content.style.ov              visible';
-              conte            .opacity                           // Also handle children tha               hidden by Atomicat classes
-                  content.querySelectorAll('.sf-h              omicat-hidden').forEach(function (                             child.classList.remo              den', 'atomicat-hidden');
-                           Ensur           don't have display: none from other s           if possible
-                if (windo          omputedStyle            display === 'none') {
-                  child.s            play = 'block';
-                }
-              });
-            } else                              onte    nt.cadd('a-c-inactive');
-              content.style.display = 'none';
-              content.style.maxHeight = '0';
-              content.style.padding = '0 20px';
-              content.style.overflow = 'hidden';
-              content.style.opacity = '0';
-            }
-          });
+    title.addEventListener('click', function() {
+      var ct = item.querySelector('.a-ac-ct');
+      if (!ct) return;
 
-          // Handle SVG icons (Toggle visibility of angle-up / angle-down)
-          var upIcon = this.querySelector('[data-icon="angle-up"]');
-          var downIcon = this.querySelector('[data-icon="angle-down"]');
+      var isHidden = ct.classList.contains('a-c-inactive') ||
+                     ct.classList.contains('sf-hidden') ||
+                     window.getComputedStyle(ct).display === 'none';
 
-          if (upIcon && downIcon) {
-            var upCont = upIcon.closest('.atomicat-svg-container');
-            var downCont = downIcon.closest('.atomicat-svg-container');
+      if (isHidden) {
+        ct.classList.remove('a-c-inactive', 'sf-hidden', 'atomicat-hidden');
+        ct.style.setProperty('display', 'block', 'important');
+        ct.style.setProperty('max-height', 'none', 'important');
+        ct.style.setProperty('padding', '15px 20px', 'important');
+        ct.style.setProperty('overflow', 'visible', 'important');
+      } else {
+        ct.classList.add('a-c-inactive');
+        ct.style.setProperty('display', 'none', 'important');
+        ct.style.setProperty('max-height', '0', 'important');
+        ct.style.setProperty('padding', '0 20px', 'important');
+        ct.style.setProperty('overflow', 'hidden', 'important');
+      }
 
-            if (shouldOpen) {
-              if (upCont) {
-                upCont.classList.remove('atomicat-hidden', 'sf-hidden');
-                upCont.style.display = 'block';
-              }
-              if (downCont) {
-                downCont.classList.add('atomicat-hidden', 'sf-hidden');
-                downCont.style.display = 'none';
-              }
-            } else {
-              if (upCont) {
-                upCont.classList.add('atomicat-hidden', 'sf-hidden');
-                upCont.style.display = 'none';
-              }
-              if (downCont) {
-                downCont.classList.remove('atomicat-hidden', 'sf-hidden');
-                downCont.style.display = 'block';
-              }
-            }
-          }
-        });
-      });
+      var upIcon = title.querySelector('[data-icon="angle-up"]');
+      var downIcon = title.querySelector('[data-icon="angle-down"]');
+      if (upIcon && downIcon) {
+        var upC = upIcon.closest('.atomicat-svg-container');
+        var downC = downIcon.closest('.atomicat-svg-container');
+        if (isHidden) {
+          if (upC) { upC.classList.remove('sf-hidden','atomicat-hidden'); upC.style.setProperty('display','block','important'); }
+          if (downC) { downC.style.setProperty('display','none','important'); }
+        } else {
+          if (upC) { upC.style.setProperty('display','none','important'); }
+          if (downC) { downC.classList.remove('sf-hidden','atomicat-hidden'); downC.style.setProperty('display','block','important'); }
+        }
+      }
     });
-  </script>
+  });
+})();
+</script>
